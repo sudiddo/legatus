@@ -10,9 +10,7 @@ function Layout({ children }: LayoutProps) {
   return (
     <>
       <Head>
-        <title>
-          Legatus - The Travian tool for those who can&apos;t do math
-        </title>
+        <title>{`Legatus - Travian Lazy Tools`}</title>
         <meta name="description" content="Travian Tools and Calculator" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
