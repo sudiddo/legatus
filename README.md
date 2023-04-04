@@ -23,4 +23,4 @@ Contributions to Legatus are always welcome! If you find any bugs or issues with
 
 ## License
 
-Legatus is licensed under the MIT License. See the (LICENSE)[LICENSE] file for more information.
+Legatus is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
