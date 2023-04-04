@@ -1,5 +1,6 @@
 import { Transition, Dialog } from "@headlessui/react";
 import React, { Fragment } from "react";
+import { useForm } from "react-hook-form";
 
 interface CropProductionModalProps {
   player: string;
@@ -69,7 +70,12 @@ function CropProductionModal({
                   Crops Calculator
                   <hr className="my-2 border-black" />
                 </Dialog.Title>
-                <div className="grid grid-rows-1 gap-5 text-black">
+                {/* Information */}
+                <div className="mb-3 grid grid-rows-1 gap-3 text-black">
+                  <div className="">
+                    <p className="text-xs font-bold">Player Informations</p>
+                    <hr />
+                  </div>
                   <div>
                     <p className="mb-1">Player Name</p>
                     <input
@@ -107,9 +113,17 @@ function CropProductionModal({
                       />
                     </div>
                   </div>
+                </div>
+                {/* Crop Counts */}
+                <div className="grid grid-cols-1 gap-3">
                   <div>
-                    <p className="mb-1">
-                      First Scout<span className="ml-1 text-red-400">*</span>
+                    <p className="text-xs font-bold">Crop Counts</p>
+                    <hr />
+                  </div>
+                  <div>
+                    <p>
+                      First Scout
+                      <span className="ml-1 text-red-400">*</span>
                     </p>
                     <input
                       type="number"
@@ -122,8 +136,9 @@ function CropProductionModal({
                     />
                   </div>
                   <div>
-                    <p className="mb-1">
-                      Second Scout <span className="ml-1 text-red-400">*</span>
+                    <p>
+                      Second Scout
+                      <span className="ml-1 text-red-400">*</span>
                     </p>
                     <input
                       type="number"
@@ -135,13 +150,13 @@ function CropProductionModal({
                       onChange={(e) => setCrops2(e.target.value)}
                     />
                   </div>
-                  <button
-                    onClick={handleSubmit}
-                    className="h-10 rounded-md border border-blue-700 bg-blue-600 text-lg font-semibold text-white transition-transform duration-75 hover:scale-95 active:scale-90"
-                  >
-                    Calculate
-                  </button>
                 </div>
+                <button
+                  onClick={handleSubmit}
+                  className="mt-5 h-10 w-full rounded-md border border-blue-700 bg-blue-600 text-lg font-semibold text-white transition-transform duration-75 hover:scale-95 active:scale-90"
+                >
+                  Calculate
+                </button>
               </Dialog.Panel>
             </Transition.Child>
           </div>
