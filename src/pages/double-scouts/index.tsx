@@ -3,7 +3,6 @@ import Image from "next/image";
 import React, { useRef } from "react";
 import Add from "@/assets/add.png";
 
-import { copyImageToClipboard } from "copy-image-clipboard";
 import html2canvas from "html2canvas";
 import { toast } from "react-toastify";
 import { Report } from "@/types";
@@ -52,22 +51,46 @@ function DoubleScouts() {
   };
 
   const convertToImage = async () => {
-    if (ref.current === null) {
-      return;
-    }
-    // Convert html to image
-    const element = ref.current;
-    const canvas = await html2canvas(element);
-    const dataUrl = canvas.toDataURL("image/png");
+    const item = new ClipboardItem({
+      "image/png": (async () => {
+        /**
+         * To be able to use `ClipboardItem` in safari, need to pass promise directly into it.
+         * @see https://stackoverflow.com/questions/66312944/javascript-clipboard-api-write-does-not-work-in-safari
+         */
 
-    copyImageToClipboard(dataUrl)
+        if (ref.current === null) {
+          throw new Error();
+        }
+
+        const element = ref.current;
+        const canvas = await html2canvas(element, {
+          scale: (window.devicePixelRatio = 1),
+        });
+        const dataUrl = canvas.toDataURL("image/png", {
+          useCors: true,
+        });
+        const blob = await fetch(dataUrl).then((r) => r.blob());
+
+        if (!blob) {
+          throw new Error();
+        }
+
+        return blob;
+      })(),
+    });
+
+    await navigator.clipboard
+      .write([item])
       .then(() => {
         toast.success("Report Copied!", {
           position: toast.POSITION.TOP_CENTER,
         });
       })
       .catch((e) => {
-        console.log("Error: ", e.message);
+        const message = e.message || "Something went wrong!";
+        toast.error(message, {
+          position: toast.POSITION.TOP_CENTER,
+        });
       });
   };
 
