@@ -65,6 +65,7 @@ function DoubleScouts() {
         const element = ref.current;
         const canvas = await html2canvas(element, {
           scale: (window.devicePixelRatio = 1),
+          backgroundColor: "black",
         });
         const dataUrl = canvas.toDataURL("image/png", {
           useCors: true,
