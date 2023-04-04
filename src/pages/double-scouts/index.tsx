@@ -33,7 +33,18 @@ function DoubleScouts() {
         crops2: Number(crops2),
         production,
       };
-      setReports([...reports, report]);
+      setReports([
+        ...reports,
+        report,
+        report,
+        report,
+        report,
+        report,
+        report,
+        report,
+        report,
+        report,
+      ]);
       clearState();
       setIsCalculatorOpen(false);
     } else {
@@ -72,7 +83,7 @@ function DoubleScouts() {
   };
 
   return (
-    <div className="relative">
+    <div className="relative h-full">
       <CropProductionModal
         player={player}
         setPlayer={setPlayer}
@@ -90,7 +101,7 @@ function DoubleScouts() {
       />
       <div
         onClick={() => setIsCalculatorOpen(true)}
-        className="group fixed bottom-5 right-3 cursor-pointer flex-col items-center justify-center rounded-full border border-blue-700 bg-blue-200 p-2 shadow-md shadow-blue-300 transition-all duration-75 hover:scale-105 lg:bottom-10 lg:right-10"
+        className="group fixed bottom-5 right-3 z-10 cursor-pointer flex-col items-center justify-center rounded-full border border-blue-700 bg-blue-200 p-2 shadow-md shadow-blue-300 transition-all duration-75 hover:scale-105 lg:bottom-10 lg:right-10"
       >
         <Image
           src={Add}
@@ -100,16 +111,24 @@ function DoubleScouts() {
           className="transition-all duration-150 group-hover:rotate-90"
         />
       </div>
-      <div className="grid grid-cols-1 gap-3 lg:grid-cols-3 lg:gap-5">
-        {reports.map((report, index) => (
-          <ScoutCard
-            ref={ref}
-            report={report}
-            key={index}
-            onCopy={convertToImage}
-          />
-        ))}
-      </div>
+      {reports.length !== 0 ? (
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-3 lg:gap-5">
+          {reports.map((report, index) => (
+            <ScoutCard
+              ref={ref}
+              report={report}
+              key={index}
+              onCopy={convertToImage}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="flex h-full flex-1 items-center justify-center">
+          <p className="text-center font-legatus text-2xl font-medium">
+            No reports yet, add one!
+          </p>
+        </div>
+      )}
     </div>
   );
 }

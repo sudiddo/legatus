@@ -5,7 +5,7 @@ import Link from "next/link";
 
 function Header() {
   return (
-    <header className="flex flex-row justify-between border-b border-black px-5 py-3 lg:px-10">
+    <header className="flex flex-row justify-between border-b border-black bg-white px-5 py-3 lg:px-10">
       <div className="flex flex-row items-center">
         <Link href={"/"} title="home">
           <Image src={Logo} alt="Legatus" width={60} height={60} />
