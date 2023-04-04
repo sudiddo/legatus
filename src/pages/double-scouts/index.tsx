@@ -33,18 +33,7 @@ function DoubleScouts() {
         crops2: Number(crops2),
         production,
       };
-      setReports([
-        ...reports,
-        report,
-        report,
-        report,
-        report,
-        report,
-        report,
-        report,
-        report,
-        report,
-      ]);
+      setReports([...reports, report]);
       clearState();
       setIsCalculatorOpen(false);
     } else {
