@@ -2,6 +2,10 @@
   "name": "legatus",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Sudiddo",
+    "email": "su.diddo@gmail.com"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,14 +13,29 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.13",
     "@types/node": "18.15.11",
     "@types/react": "18.0.31",
     "@types/react-dom": "18.0.11",
+    "copy-image-clipboard": "^2.1.2",
     "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",
+    "html2canvas": "^1.4.1",
     "next": "13.2.4",
+    "numeral": "^2.0.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.9",
+    "react-toastify": "^9.1.2",
     "typescript": "5.0.2"
+  },
+  "devDependencies": {
+    "@types/html2canvas": "^1.0.0",
+    "@types/numeral": "^2.0.2",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.21",
+    "prettier": "^2.8.7",
+    "prettier-plugin-tailwindcss": "^0.2.6",
+    "tailwindcss": "^3.3.0"
   }
 }
