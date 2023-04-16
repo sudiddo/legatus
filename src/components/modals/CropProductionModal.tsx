@@ -9,10 +9,20 @@ interface CropProductionModalProps {
   setX: React.Dispatch<React.SetStateAction<string>>;
   y: string;
   setY: React.Dispatch<React.SetStateAction<string>>;
+  isCap: boolean;
+  setIsCap: React.Dispatch<React.SetStateAction<boolean>>;
+  cropFields: React.Dispatch<React.SetStateAction<string>>;
+  setCropFields: React.Dispatch<React.SetStateAction<string>>;
+  oasisBonus: React.Dispatch<React.SetStateAction<string>>;
+  setOasisBonus: React.Dispatch<React.SetStateAction<string>>;
   crops1: string;
   setCrops1: React.Dispatch<React.SetStateAction<string>>;
   crops2: string;
   setCrops2: React.Dispatch<React.SetStateAction<string>>;
+  timeGap: string;
+  setTimeGap: React.Dispatch<React.SetStateAction<string>>;
+  isOasis: boolean;
+  setIsOasis: React.Dispatch<React.SetStateAction<boolean>>;
   handleSubmit: () => void;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,10 +35,20 @@ function CropProductionModal({
   setX,
   y,
   setY,
+  isCap,
+  setIsCap,
+  oasisBonus,
+  setOasisBonus,
+  cropFields,
+  setCropFields,
   crops1,
   setCrops1,
   crops2,
   setCrops2,
+  timeGap,
+  setTimeGap,
+  isOasis,
+  setIsOasis,
   handleSubmit,
   isOpen,
   setIsOpen,
@@ -113,6 +133,43 @@ function CropProductionModal({
                       />
                     </div>
                   </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      name="cap"
+                      id="cap"
+                      value={isCap}
+                      onChange={(e) => setIsCap(!isCap)}
+                    />
+                    <label for="cap"> Cap </label>
+
+                    <select
+                      name="crop-fields"
+                      id="crop-field"
+                      value={cropFields}
+                      onChange={(e) => setCropFields(e.target.value)}
+                    >
+                      <option value="6" selected>6c</option>
+                      <option value="7">7c</option>
+                      <option value="9">9c</option>
+                      <option value="15">15c</option>
+                      <option value="18">18c</option>
+                    </select>
+
+                    <select
+                      name="oasis-bonus"
+                      id="oasis-bonus"
+                      value={oasisBonus}
+                      onChange={(e) => setOasisBonus(e.target.value)}
+                    >
+                      <option value="0" selected>0%</option>
+                      <option value="25">25%</option>
+                      <option value="50">50%</option>
+                      <option value="75">75%</option>
+                      <option value="125">125%</option>
+                      <option value="150">150%</option>
+                    </select>
+                  </div>
                 </div>
                 {/* Crop Counts */}
                 <div className="grid grid-cols-1 gap-3">
@@ -149,6 +206,31 @@ function CropProductionModal({
                       value={crops2}
                       onChange={(e) => setCrops2(e.target.value)}
                     />
+                  </div>
+                  <div>
+                    <p>
+                      Time Gap (in seconds)
+                      {/* <span className="ml-1 text-red-400">*</span> */}
+                    </p>
+                    <input
+                      type="number"
+                      name="time-gap"
+                      id="time-gap"
+                      className="block w-full rounded-md border-0 px-5 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
+                      placeholder="10"
+                      value={timeGap}
+                      onChange={(e) => setTimeGap(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      name="oasis"
+                      id="oasis"
+                      value={isOasis}
+                      onChange={(e) => setIsOasis(!isOasis)}
+                    />
+                    <label for="oasis"> Is on Oasis </label>
                   </div>
                 </div>
                 <button

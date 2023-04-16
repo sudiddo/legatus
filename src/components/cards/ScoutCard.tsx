@@ -21,6 +21,9 @@ const ScoutCard = forwardRef<HTMLDivElement, ScoutCardProps>(
           <p className="text-lg font-semibold lg:ml-3">
             {`${report.player} (${report.x} | ${report.y})`}
           </p>
+          <p>
+            {`${report.oasisBonus}% `}{`${report.cropFields}c `}{report.isCap? `Cap` : `Non-Cap`}
+          </p>
         </div>
         <hr className="mb-2 border-black" />
         <div className="mb-4 flex">

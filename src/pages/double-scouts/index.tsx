@@ -14,20 +14,29 @@ function DoubleScouts() {
   const [player, setPlayer] = React.useState("");
   const [x, setX] = React.useState("");
   const [y, setY] = React.useState("");
+  const [isCap, setIsCap] = React.useState(false);
+  const [cropFields, setCropFields] = React.useState("6");
+  const [oasisBonus, setOasisBonus] = React.useState("0");
   const [crops1, setCrops1] = React.useState("");
   const [crops2, setCrops2] = React.useState("");
+  const [timeGap, setTimeGap] = React.useState("10");
+  const [isOasis, setIsOasis] = React.useState(false);
   const [isCalculatorOpen, setIsCalculatorOpen] = React.useState(false);
   //   --------------------
   const [reports, setReports] = React.useState<Report[]>([]);
 
   const handleSubmit = () => {
     // Check if crops1 and crops2 are filled
-    if (crops1 && crops2) {
-      const production = (Number(crops2) - Number(crops1)) * 360;
+    if (crops1 && crops2 && timeGap) {
+      const oasis = isOasis ? 10 : 1;
+      const production = (Number(crops2) - Number(crops1)) / Number(timeGap) * 3600 * Number(oasis);
       const report: Report = {
         player,
         x,
         y,
+        isCap,
+        cropFields: Number(cropFields),
+        oasisBonus: Number(oasisBonus),
         crops1: Number(crops1),
         crops2: Number(crops2),
         production,
@@ -46,8 +55,13 @@ function DoubleScouts() {
     setPlayer("");
     setX("");
     setY("");
+    setIsCap(false);
+    setCropFields("6");
+    setOasisBonus("0");
     setCrops1("");
     setCrops2("");
+    setTimeGap("10");
+    setIsOasis(false);
   };
 
   const convertToImage = async () => {
@@ -104,10 +118,20 @@ function DoubleScouts() {
         setX={setX}
         y={y}
         setY={setY}
+        isCap={isCap}
+        setIsCap={setIsCap}
+        cropFields={cropFields}
+        setCropFields={setCropFields}
+        oasisBonus={oasisBonus}
+        setOasisBonus={setOasisBonus}
         crops1={crops1}
         setCrops1={setCrops1}
         crops2={crops2}
         setCrops2={setCrops2}
+        timeGap={timeGap}
+        setTimeGap={setTimeGap}
+        isOasis={isOasis}
+        setIsOasis={setIsOasis}
         handleSubmit={handleSubmit}
         isOpen={isCalculatorOpen}
         setIsOpen={setIsCalculatorOpen}
