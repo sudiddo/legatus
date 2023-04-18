@@ -2,6 +2,7 @@
   "name": "legatus",
   "version": "0.1.0",
   "private": true,
+  "license": "GPL-3.0-or-later",
   "author": {
     "name": "Sudiddo",
     "email": "su.diddo@gmail.com"
