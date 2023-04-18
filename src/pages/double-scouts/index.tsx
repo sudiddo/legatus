@@ -7,77 +7,49 @@ import html2canvas from "html2canvas";
 import { toast } from "react-toastify";
 import { Report } from "@/types";
 import ScoutCard from "@/components/cards/ScoutCard";
+import useCropModalLogic from "@/hooks/useCropModalLogic";
 
 function DoubleScouts() {
   const ref = useRef<HTMLDivElement>(null);
+  const cropModalState = useCropModalLogic();
+  const { setIsOpen, handleSubmit, clearState } = cropModalState;
 
-  const [player, setPlayer] = React.useState("");
-  const [x, setX] = React.useState("");
-  const [y, setY] = React.useState("");
-  const [crops1, setCrops1] = React.useState("");
-  const [crops2, setCrops2] = React.useState("");
-  const [isCalculatorOpen, setIsCalculatorOpen] = React.useState(false);
   //   --------------------
   const [reports, setReports] = React.useState<Report[]>([]);
 
-  const handleSubmit = () => {
-    // Check if crops1 and crops2 are filled
-    if (crops1 && crops2) {
-      const production = (Number(crops2) - Number(crops1)) * 360;
-      const report: Report = {
-        player,
-        x,
-        y,
-        crops1: Number(crops1),
-        crops2: Number(crops2),
-        production,
-      };
-      setReports([...reports, report]);
+  const handleModalSubmit = () => {
+    const result = handleSubmit() as Report;
+    if (result) {
+      setReports([...reports, result]);
       clearState();
-      setIsCalculatorOpen(false);
-    } else {
-      toast.error("Please fill first and second scout!", {
-        position: toast.POSITION.TOP_CENTER,
-      });
     }
   };
 
-  const clearState = () => {
-    setPlayer("");
-    setX("");
-    setY("");
-    setCrops1("");
-    setCrops2("");
+  const convertToImage = async () => {
+    const element = ref.current;
+    if (element === null) {
+      throw new Error();
+    }
+
+    const canvas = await html2canvas(element, {
+      scale: (window.devicePixelRatio = 1),
+      backgroundColor: "black",
+    });
+    const dataUrl = canvas.toDataURL("image/png", {
+      useCors: true,
+    });
+    const blob = await fetch(dataUrl).then((r) => r.blob());
+
+    if (!blob) {
+      throw new Error();
+    }
+
+    await copyToClipboard(blob);
   };
 
-  const convertToImage = async () => {
+  const copyToClipboard = async (blob: Blob) => {
     const item = new ClipboardItem({
-      "image/png": (async () => {
-        /**
-         * To be able to use `ClipboardItem` in safari, need to pass promise directly into it.
-         * @see https://stackoverflow.com/questions/66312944/javascript-clipboard-api-write-does-not-work-in-safari
-         */
-
-        if (ref.current === null) {
-          throw new Error();
-        }
-
-        const element = ref.current;
-        const canvas = await html2canvas(element, {
-          scale: (window.devicePixelRatio = 1),
-          backgroundColor: "black",
-        });
-        const dataUrl = canvas.toDataURL("image/png", {
-          useCors: true,
-        });
-        const blob = await fetch(dataUrl).then((r) => r.blob());
-
-        if (!blob) {
-          throw new Error();
-        }
-
-        return blob;
-      })(),
+      "image/png": blob,
     });
 
     await navigator.clipboard
@@ -98,22 +70,11 @@ function DoubleScouts() {
   return (
     <div className="relative h-full">
       <CropProductionModal
-        player={player}
-        setPlayer={setPlayer}
-        x={x}
-        setX={setX}
-        y={y}
-        setY={setY}
-        crops1={crops1}
-        setCrops1={setCrops1}
-        crops2={crops2}
-        setCrops2={setCrops2}
-        handleSubmit={handleSubmit}
-        isOpen={isCalculatorOpen}
-        setIsOpen={setIsCalculatorOpen}
+        {...cropModalState}
+        handleSubmit={handleModalSubmit}
       />
       <div
-        onClick={() => setIsCalculatorOpen(true)}
+        onClick={() => setIsOpen(true)}
         className="group fixed bottom-5 right-3 z-10 cursor-pointer flex-col items-center justify-center rounded-full border border-blue-700 bg-blue-200 p-2 shadow-md shadow-blue-300 transition-all duration-75 hover:scale-105 lg:bottom-10 lg:right-10"
       >
         <Image
