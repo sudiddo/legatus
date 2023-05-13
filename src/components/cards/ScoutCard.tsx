@@ -76,7 +76,7 @@ const ScoutCard = forwardRef<HTMLDivElement, ScoutCardProps>(
 
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-1 flex-col">
-            <p className="mb-1 text-sm font-bold">Crop Production/hour</p>
+            <p className="mb-1 text-sm font-bold">Production</p>
             <div className="flex flex-row items-start">
               <div className="relative h-5 w-5">
                 <Image
