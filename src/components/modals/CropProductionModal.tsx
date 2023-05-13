@@ -3,20 +3,19 @@ import Modal from ".";
 import useCropModalLogic from "@/hooks/useCropModalLogic";
 import { ModalSectionTitle } from "../label";
 import { ModalInput } from "../inputs";
+import ModalTextArea from "../inputs/ModalTextArea";
 
 type CropProductionModalProps = ReturnType<typeof useCropModalLogic>;
 
 const CropProductionModal: React.FC<CropProductionModalProps> = ({
-  player,
-  setPlayer,
   x,
   setX,
   y,
   setY,
-  crops1,
-  setCrops1,
-  crops2,
-  setCrops2,
+  firstReport,
+  setFirstReport,
+  secondReport,
+  setSecondReport,
   handleSubmit,
   isOpen,
   setIsOpen,
@@ -29,14 +28,6 @@ const CropProductionModal: React.FC<CropProductionModalProps> = ({
     >
       {/* Information */}
       <div className="mb-3 grid grid-rows-1 gap-3 text-black">
-        <ModalSectionTitle title="Player Informations" />
-        <ModalInput
-          placeholder="Player Name"
-          label="Player Name"
-          type="text"
-          value={player}
-          onChange={(e) => setPlayer(e.target.value)}
-        />
         <div>
           <p className="mb-1">Coordinates</p>
           <div className="grid grid-cols-2 gap-3">
@@ -57,23 +48,26 @@ const CropProductionModal: React.FC<CropProductionModalProps> = ({
       </div>
       {/* Crop Counts */}
       <div className="grid grid-cols-1 gap-3">
-        <ModalSectionTitle title="Crop Counts" />
-        <ModalInput
-          type="number"
-          placeholder="Crops"
-          name="crops-1"
-          value={crops1}
-          onChange={(e) => setCrops1(e.target.value)}
-          label="First Scout"
+        <ModalSectionTitle title="Report Parsing" />
+        <p className="text-xs italic">
+          <span className="font-bold">How to: </span>With ease, select all and
+          copy the scout report from Travian, and then paste it here to make the
+          tool work its magic!
+        </p>
+        <ModalTextArea
+          placeholder="Paste your report here"
+          name="first-report"
+          value={firstReport}
+          onChange={(e) => setFirstReport(e.target.value)}
+          label="First Report"
           required
         />
-        <ModalInput
-          type="number"
-          placeholder="Crops"
-          name="crops-2"
-          value={crops2}
-          onChange={(e) => setCrops2(e.target.value)}
-          label="Second Scout"
+        <ModalTextArea
+          placeholder="Paste your report here"
+          name="second-report"
+          value={secondReport}
+          onChange={(e) => setSecondReport(e.target.value)}
+          label="Second Report"
           required
         />
       </div>
