@@ -1,8 +1,11 @@
 export type Report = {
   player: string;
+  village: string;
   x: string;
   y: string;
-  crops1: number;
-  crops2: number;
+  firstCrop: string;
+  secondCrop: string;
   production: number;
+  time: string;
+  reporter: string;
 };

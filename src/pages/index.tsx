@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import Header from "@/components/Header";
 import Menu from "@/components/buttons/Menu";
 import Layout from "@/components/Layout";
+import { ChangeEventHandler, useRef, useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 

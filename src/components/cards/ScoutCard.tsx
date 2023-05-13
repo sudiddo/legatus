@@ -4,6 +4,7 @@ import numeral from "numeral";
 import React, { forwardRef } from "react";
 import Wheat from "@/assets/wheat.png";
 import MagnifyingGlass from "@/assets/magnifying-glass.png";
+import moment from "moment";
 
 interface ScoutCardProps {
   report: Report;
@@ -15,17 +16,21 @@ const ScoutCard = forwardRef<HTMLDivElement, ScoutCardProps>(
     return (
       <div
         ref={ref}
-        className="flex h-44 flex-col rounded-2xl border-2 border-blue-700 bg-white p-2"
+        className="flex flex-col rounded-2xl border-2 border-blue-700 bg-white p-2 lg:px-5"
       >
-        <div className="flex flex-row items-center justify-between font-legatus">
-          <p className="text-lg font-semibold lg:ml-3">
-            {`${report.player} (${report.x} | ${report.y})`}
-          </p>
+        <div className="flex flex-row items-center justify-between font-legatus text-xs">
+          <div className="flex flex-col text-left">
+            <p className="text-lg font-semibold">{report.player}</p>
+          </div>
+          <div className="flex flex-col text-right">
+            <p className="text-sm font-semibold">{report.village}</p>
+            <p className="">{report.time}</p>
+          </div>
         </div>
-        <hr className="mb-2 border-black" />
+        <hr className="mb-2 mt-1 border-black" />
         <div className="mb-4 flex">
           <div className="flex flex-1 flex-col">
-            <p className="mb-1 text-sm font-bold">First Scout Result</p>
+            <p className="mb-1 text-sm font-bold">First Scout</p>
             <div className="flex flex-1 flex-row items-center">
               <div className="relative h-5 w-5">
                 <Image
@@ -40,13 +45,13 @@ const ScoutCard = forwardRef<HTMLDivElement, ScoutCardProps>(
                 </sub>
               </div>
               <p className="ml-3 font-legatus">
-                {numeral(report.crops1).format("0,0")}{" "}
+                {numeral(report.firstCrop).format("0,0")}{" "}
                 <span className="font-sans text-sm">crops</span>
               </p>
             </div>
           </div>
-          <div className="flex flex-1 flex-col">
-            <p className="mb-1 text-sm font-bold">Second Scout Result</p>
+          <div className="flex flex-1 flex-col items-end">
+            <p className="mb-1 text-sm font-bold">Second Scout</p>
 
             <div className="flex flex-1 flex-row items-center">
               <div className="relative h-5 w-5">
@@ -62,7 +67,7 @@ const ScoutCard = forwardRef<HTMLDivElement, ScoutCardProps>(
                 </sub>
               </div>
               <p className="ml-3 font-legatus">
-                {numeral(report.crops2).format("0,0")}{" "}
+                {numeral(report.secondCrop).format("0,0")}{" "}
                 <span className="font-sans text-sm">crops</span>
               </p>
             </div>
@@ -93,7 +98,7 @@ const ScoutCard = forwardRef<HTMLDivElement, ScoutCardProps>(
 
           <div
             data-html2canvas-ignore="true"
-            className={`flex flex-1 justify-center`}
+            className={`flex flex-1 justify-end`}
           >
             <button
               onClick={onCopy}

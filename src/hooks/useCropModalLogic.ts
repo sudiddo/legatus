@@ -1,34 +1,79 @@
 import { Report } from "@/types";
+import moment from "moment";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
 export default function useCropModalLogic() {
-  const [player, setPlayer] = useState(""); // this state is for player name
   const [x, setX] = useState(""); // this state is for x coordinate
   const [y, setY] = useState(""); // this state is for y coordinate
-  const [crops1, setCrops1] = useState(""); // this state is for first scout
-  const [crops2, setCrops2] = useState(""); // this state is for second scout
+  const [firstReport, setFirstReport] = useState(""); // this state is for first scout
+  const [secondReport, setSecondReport] = useState(""); // this state is for second scout
   const [isOpen, setIsOpen] = useState(false); // this state is for modal visibility
 
   // this function is used to reset input states and modal visibility state
   const clearState = () => {
-    setPlayer("");
     setX("");
     setY("");
-    setCrops1("");
-    setCrops2("");
+    setFirstReport("");
+    setSecondReport("");
+  };
+
+  const parseData = (data: string) => {
+    // Report Time
+    const reportTime = data?.split("scouts")[1].split("\n")[1].trim();
+    const formattedTime = moment(reportTime, "YY/MM/DD HH:mm:ss").format(
+      "dddd, DD MMMM YY - HH:mm:ss"
+    );
+    console.log(formattedTime);
+
+    // Attacker
+    const attacker = data?.split("ATTACKER", 2)[1];
+    const attackerName = attacker?.split("\n")[1].split("from")[0].trim();
+
+    // Defender
+    const target = data?.split("DEFENDER");
+    const targetPlayer = target[1].trim().split("\n")[0].split("from");
+    console.log(targetPlayer);
+    const targetName = targetPlayer[0];
+    const coordinate = x && y ? `- (${x}|${y})` : "";
+    const targetVillage = `${targetPlayer[1]} ${coordinate}`;
+
+    // Resources
+    const getResources = attacker
+      ?.split("Resources")[1]
+      .split("\t")[1]
+      .trim()
+      .split("\n");
+    const resources = {
+      wood: getResources[0],
+      clay: getResources[1],
+      iron: getResources[2],
+      crop: getResources[3],
+    };
+    return {
+      targetName,
+      targetVillage,
+      attackerName,
+      reportTime: formattedTime,
+      resources,
+    };
   };
 
   const handleSubmit = (): Report | void => {
-    if (crops1 && crops2) {
-      const production = (Number(crops2) - Number(crops1)) * 360;
+    if (firstReport && secondReport) {
+      const firstCrop = parseData(firstReport).resources.crop;
+      const secondCrop = parseData(secondReport).resources.crop;
+      const production = (Number(secondCrop) - Number(firstCrop)) * 360;
       const report: Report = {
-        player,
+        player: parseData(firstReport).targetName,
+        village: parseData(firstReport).targetVillage,
         x,
         y,
-        crops1: Number(crops1),
-        crops2: Number(crops2),
+        firstCrop,
+        secondCrop,
         production,
+        time: parseData(firstReport).reportTime,
+        reporter: parseData(firstReport).attackerName,
       };
       setIsOpen(false);
       clearState();
@@ -41,16 +86,14 @@ export default function useCropModalLogic() {
   };
 
   return {
-    player,
-    setPlayer,
     x,
     setX,
     y,
     setY,
-    crops1,
-    setCrops1,
-    crops2,
-    setCrops2,
+    firstReport,
+    setFirstReport,
+    secondReport,
+    setSecondReport,
     isOpen,
     setIsOpen,
     handleSubmit,
