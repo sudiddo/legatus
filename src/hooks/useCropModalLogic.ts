@@ -24,16 +24,18 @@ export default function useCropModalLogic() {
     const formattedTime = moment(reportTime, "YY/MM/DD HH:mm:ss").format(
       "dddd, DD MMMM YY - HH:mm:ss"
     );
-    console.log(formattedTime);
 
     // Attacker
-    const attacker = data?.split("ATTACKER", 2)[1];
+    const attackerKeyword =
+      data?.indexOf("ATTACKER") === -1 ? "Attacker" : "ATTACKER";
+    const attacker = data?.split(attackerKeyword, 2)[1];
     const attackerName = attacker?.split("\n")[1].split("from")[0].trim();
 
     // Defender
-    const target = data?.split("DEFENDER");
+    const targetKeyword =
+      data?.indexOf("DEFENDER") === -1 ? "Defender" : "DEFENDER";
+    const target = data?.split(targetKeyword);
     const targetPlayer = target[1].trim().split("\n")[0].split("from");
-    console.log(targetPlayer);
     const targetName = targetPlayer[0];
     const coordinate = x && y ? `- (${x}|${y})` : "";
     const targetVillage = `${targetPlayer[1]} ${coordinate}`;
