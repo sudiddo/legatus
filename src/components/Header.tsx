@@ -17,7 +17,7 @@ function Header() {
           </p>
         </div>
       </div>
-      <span className="font-legatus">v1.1.0</span>
+      <span className="font-legatus">v1.1.1</span>
     </header>
   );
 }
