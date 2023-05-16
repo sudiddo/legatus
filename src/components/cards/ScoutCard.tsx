@@ -13,6 +13,9 @@ interface ScoutCardProps {
 
 const ScoutCard = forwardRef<HTMLDivElement, ScoutCardProps>(
   ({ report, onCopy }, ref) => {
+    const isFirefox = () => {
+      return navigator.userAgent.toLowerCase().includes("firefox");
+    };
     return (
       <div
         ref={ref}
@@ -100,12 +103,14 @@ const ScoutCard = forwardRef<HTMLDivElement, ScoutCardProps>(
             data-html2canvas-ignore="true"
             className={`flex flex-1 justify-end`}
           >
-            <button
-              onClick={onCopy}
-              className="text-bold rounded-lg bg-blue-500 p-2 text-center font-sans text-xs font-semibold text-white transition-transform duration-75 hover:scale-105 active:scale-95 lg:p-2 lg:text-sm"
-            >
-              Copy to clipboard
-            </button>
+            {!isFirefox() && (
+              <button
+                onClick={onCopy}
+                className="text-bold rounded-lg bg-blue-500 p-2 text-center font-sans text-xs font-semibold text-white transition-transform duration-75 hover:scale-105 active:scale-95 lg:p-2 lg:text-sm"
+              >
+                Copy to clipboard
+              </button>
+            )}
           </div>
         </div>
       </div>
